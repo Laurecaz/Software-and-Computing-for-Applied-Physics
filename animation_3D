@@ -1,0 +1,62 @@
+from vpython import *
+
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy.special
+from scipy.special import sph_harm
+import random
+
+
+#Probability of 1s
+def prob_1s(x,y,z):
+    r=np.sqrt(np.square(x)+np.square(y)+np.square(z))
+    return np.square(np.exp(-r)/np.sqrt(np.pi))
+
+#Coordinates
+N = 30 
+x=np.linspace(0,1,N)
+y=np.linspace(0,1,N)
+z=np.linspace(0,1,N)
+    
+elements = []
+probability = []
+for ix in x:
+    for iy in y:
+        for iz in z:
+            #Serialize into 1D object
+            elements.append(str((ix,iy,iz)))
+            probability.append(prob_1s(ix,iy,iz))
+            
+#Ensure sum of probability is 1
+probability = probability/sum(probability)
+
+#Getting electron coordinates based on probabiliy
+coord = np.random.choice(elements, size=100000, replace=True, p=probability)
+        
+    
+elem_mat = [i.split(',') for i in coord]
+elem_mat = np.matrix(elem_mat)
+x_coords = [float(i.item()[1:]) for i in elem_mat[:,0]] 
+y_coords = [float(i.item()) for i in elem_mat[:,1]] 
+z_coords = [float(i.item()[0:-1]) for i in elem_mat[:,2]]
+
+
+#3D animation
+
+ball = sphere(color=color.red,radius = 0.4)
+
+
+x_array = np.asarray(x_coords)
+y_array = np.asarray(y_coords)
+z_array = np.asarray(z_coords)
+
+
+
+def move():
+    rate(200)
+    for i in range(len(x_array)):
+        ball.p = vector(x_array[i], y_array[i], z_array[i])
+        ball.pos = ball.pos + ball.p
+    
+move()
