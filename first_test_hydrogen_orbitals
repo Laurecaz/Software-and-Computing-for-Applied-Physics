@@ -1,12 +1,9 @@
-
 import numpy as np
 import math
 import matplotlib.pyplot as plt
 import scipy.special
 from scipy.special import sph_harm
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.animation import FuncAnimation
-import random
+
 
 
 #hydrogen wave function
@@ -24,9 +21,10 @@ def hydrogen_wf(n,l,m,X,Y,Z):
     wf = np.nan_to_num(wf)
     return wf
   
-dz=0.03
+dz=0.01
 zmin=-10
 zmax=10
+
 x = np.arange(zmin,zmax,dz)
 y = np.arange(zmin,zmax,dz)
 z = np.arange(zmin,zmax,dz)
@@ -42,7 +40,7 @@ data = (abs(data)**2)/sum(abs(data)**2)
 
 
 
-#Getting electron coordinates based on probabiliy
+#Getting electron coordinates based on probability
 x_coords = np.random.choice(x, size=100000, replace=True, p=data)
 y_coords = np.random.choice(y, size=100000, replace=True, p=data)
 z_coords = np.random.choice(z, size=100000, replace=True, p=data)
@@ -53,29 +51,21 @@ ax.scatter(x_coords,y_coords,z_coords, alpha=0.05, s=2)
 
 
 
+#distribution of probability
 
-#Plot a probability color code 
+quarter = []
+half = []
+three_quarter = []
+last_quarter = []
 
-data_reduct = []
-for i in range(len(data)):
-    if data[i]> 0.001 : 
-        data_reduct.append(data[i])
-
-
-data_reduct = data_reduct/sum(data_reduct)
-
-dz=len(data_reduct)
-zmin=-10
-zmax=10
-x = np.linspace(zmin,zmax,dz)
-y = np.linspace(zmin,zmax,dz)
-z = np.linspace(zmin,zmax,dz)
-
-#Getting electron coordinates based on probabiliy
-x_coords = np.random.choice(x, size=100000, replace=True, p=data_reduct)
-y_coords = np.random.choice(y, size=100000, replace=True, p=data_reduct)
-z_coords = np.random.choice(z, size=100000, replace=True, p=data_reduct)
-
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(x_coords,y_coords,z_coords, alpha=0.05, s=2)
+#rendre cette partie universelle en tenant compte d'un changement de zmin/zmax
+for i in range(len(x_coords)):
+    r = np.sqrt(x_coords[i]**2+y_coords[i]**2+z_coords[i]**2)
+    if r<0.8 : #particules with a distance lower than 0.8 from the origin
+        quarter.append(r)
+    if 0.8<r<1.6 :
+        half.append(r)
+    if 1.6<r<2.4 :
+        three_quarter.append(r)
+    if r>2.4 :
+        last_quarter.append(r)
