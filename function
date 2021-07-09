@@ -18,3 +18,8 @@ def hydrogen_wf(n,l,m,X,Y,Z):
     wf = prefactor*np.exp(-rho/2.)*rho**l*s_harm*l_poly
     wf = np.nan_to_num(wf)
     return wf
+
+#Probability of 1s hydrogen
+def prob_1s(x,y,z):
+    r=np.sqrt(np.square(x)+np.square(y)+np.square(z))
+    return np.square(np.exp(-r)/np.sqrt(np.pi))
