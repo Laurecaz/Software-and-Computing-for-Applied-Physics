@@ -1,18 +1,13 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jul  7 17:03:32 2021
 
-@author: laurecazals
-"""
-import math
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 import scipy.special
 from scipy.special import sph_harm
-import random
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
+import random
+
 
 #hydrogen wave function
 def hydrogen_wf(n,l,m,X,Y,Z):
@@ -28,116 +23,59 @@ def hydrogen_wf(n,l,m,X,Y,Z):
     wf = prefactor*np.exp(-rho/2.)*rho**l*s_harm*l_poly
     wf = np.nan_to_num(wf)
     return wf
+  
+dz=0.03
+zmin=-10
+zmax=10
+x = np.arange(zmin,zmax,dz)
+y = np.arange(zmin,zmax,dz)
+z = np.arange(zmin,zmax,dz)
 
 
-# Choose the orbitals
-n = 1
-l = 0
-m = 0
+#Change these to change which orbital to plot
+n=1
+l=0
+m=0
 
+data = hydrogen_wf(n,l,m,x,y,z)
+data = (abs(data)**2)/sum(abs(data)**2)
 
-# Random particules
-
-N = 30 # number of particules
-
-
-#Probability of 1s
-def prob_1s(x,y,z):
-    r=np.sqrt(np.square(x)+np.square(y)+np.square(z))
-    return np.square(np.exp(-r)/np.sqrt(np.pi))
-#Random coordinates
-x=np.linspace(0,1,N)
-y=np.linspace(0,1,N)
-z=np.linspace(0,1,N)
-    
-elements_x = []
-elements_y = []
-elements_z = []
-probability = []
-
-for ix in x:
-    for iy in y:
-        for iz in z:
-            #Serialize into 1D object
-            #elements.append(str((ix,iy,iz)))
-            elements_x.append(ix)
-            elements_y.append(iy)
-            elements_z.append(iz)
-            probability.append(prob_1s(ix,iy,iz))
-            
-#Ensure sum of probability is 1
-probability = probability/sum(probability)
 
 
 #Getting electron coordinates based on probabiliy
-x_coords = np.random.choice(elements_x, size=100000, replace=True, p=probability)
-y_coords = np.random.choice(elements_y, size=100000, replace=True, p=probability)
-z_coords = np.random.choice(elements_z, size=100000, replace=True, p=probability)
-    
-#coupure
+x_coords = np.random.choice(x, size=100000, replace=True, p=data)
+y_coords = np.random.choice(y, size=100000, replace=True, p=data)
+z_coords = np.random.choice(z, size=100000, replace=True, p=data)
 
-#Plotting
-fig = plt.figure(figsize=(10,10))
+fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(x_coords, y_coords, z_coords, alpha=0.05, s=2)
-ax.set_title("Hydrogen 1s density")
-plt.show()
+ax.scatter(x_coords,y_coords,z_coords, alpha=0.05, s=2)
 
 
 
-#Plot : colors as a function of the prob
+
+#Plot a probability color code 
+
+data_reduct = []
+for i in range(len(data)):
+    if data[i]> 0.001 : 
+        data_reduct.append(data[i])
 
 
+data_reduct = data_reduct/sum(data_reduct)
 
-#one third
+dz=len(data_reduct)
+zmin=-10
+zmax=10
+x = np.linspace(zmin,zmax,dz)
+y = np.linspace(zmin,zmax,dz)
+z = np.linspace(zmin,zmax,dz)
 
+#Getting electron coordinates based on probabiliy
+x_coords = np.random.choice(x, size=100000, replace=True, p=data_reduct)
+y_coords = np.random.choice(y, size=100000, replace=True, p=data_reduct)
+z_coords = np.random.choice(z, size=100000, replace=True, p=data_reduct)
 
-    
-x_one_third = []
-y_one_third = []
-z_one_third = []
-
-x_two_third = []
-y_two_third = []
-z_two_third = []
-
-x_three_third = []
-y_three_third = []
-z_three_third = []
-limit = 0.333
-
-for i in range(len(x_coords)) : 
-    if limit>x_coords[i]:
-        if limit>y_coords[i]:
-            if limit>z_coords[i]:
-                x_one_third.append(x_coords[i])
-                y_one_third.append(y_coords[i])
-                z_one_third.append(z_coords[i])
-    
-for i in range(len(x_coords)) : 
-    if 2*limit>x_coords[i]>limit:
-        if 2*limit>y_coords[i]>limit:
-            if 2*limit>z_coords[i]>limit:
-                x_two_third.append(x_coords[i])
-                y_two_third.append(y_coords[i])
-                z_two_third.append(z_coords[i]) 
-                
-for i in range(len(x_coords)) : 
-    if 3*limit>x_coords[i]>2*limit:
-        if 3*limit>y_coords[i]>2*limit:
-            if 3*limit>z_coords[i]>2*limit:
-                x_three_third.append(x_coords[i])
-                y_three_third.append(y_coords[i])
-                z_three_third.append(z_coords[i]) 
-    
-
-
-#Plotting
-                
-fig = plt.figure(figsize=(10,10))
+fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(x_one_third, y_one_third, z_one_third, alpha=0.05, s=2,color='r')
-ax.scatter(x_two_third, y_two_third, z_two_third, alpha=0.05, s=2,color='b')
-ax.scatter(x_three_third, y_three_third, z_three_third, alpha=0.05, s=2,color='g')
-ax.set_title("Hydrogen 1s density")
-plt.show()
+ax.scatter(x_coords,y_coords,z_coords, alpha=0.05, s=2)
