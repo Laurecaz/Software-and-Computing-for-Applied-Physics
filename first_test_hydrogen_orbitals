@@ -52,20 +52,60 @@ ax.scatter(x_coords,y_coords,z_coords, alpha=0.05, s=2)
 
 
 #distribution of probability
+#test : tout rendre universel si succès
+#rendre cette partie universelle en tenant compte d'un changement de zmin/zmax
 
 quarter = []
 half = []
 three_quarter = []
 last_quarter = []
 
-#rendre cette partie universelle en tenant compte d'un changement de zmin/zmax
+x_coords_quarter = []
+y_coords_quarter = []
+z_coords_quarter = []
+
+x_coords_half = []
+y_coords_half = []
+z_coords_half = []
+
+x_coords_three_quarter = []
+y_coords_three_quarter = []
+z_coords_three_quarter = []
+
+x_coords_last_quarter = []
+y_coords_last_quarter = []
+z_coords_last_quarter = []
+
 for i in range(len(x_coords)):
     r = np.sqrt(x_coords[i]**2+y_coords[i]**2+z_coords[i]**2)
     if r<0.8 : #particules with a distance lower than 0.8 from the origin
         quarter.append(r)
+        x_coords_quarter.append(x_coords[i])
+        y_coords_quarter.append(y_coords[i])
+        z_coords_quarter.append(z_coords[i])
     if 0.8<r<1.6 :
         half.append(r)
+        x_coords_half.append(x_coords[i])
+        y_coords_half.append(y_coords[i])
+        z_coords_half.append(z_coords[i])
     if 1.6<r<2.4 :
         three_quarter.append(r)
+        x_coords_three_quarter.append(x_coords[i])
+        y_coords_three_quarter.append(y_coords[i])
+        z_coords_three_quarter.append(z_coords[i])
     if r>2.4 :
         last_quarter.append(r)
+        x_coords_last_quarter.append(x_coords[i])
+        y_coords_last_quarter.append(y_coords[i])
+        z_coords_last_quarter.append(z_coords[i])
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+#ax.scatter(x_coords,y_coords,z_coords, alpha=0.05, s=2,color='b')
+ax.scatter(x_coords_quarter,y_coords_quarter,z_coords_quarter, alpha=0.05, s=2,color='r',label = '75%')
+ax.scatter(x_coords_half,y_coords_half,z_coords_half, alpha=0.05, s=2,color='g',label='25%')
+ax.scatter(x_coords_three_quarter,y_coords_three_quarter,z_coords_three_quarter, alpha=0.05, s=2,color='m',label='2%')
+ax.scatter(x_coords_last_quarter,y_coords_last_quarter,z_coords_last_quarter, alpha=0.05, s=2,color='b',label ='0.1%')
+
+plt.legend()
+
