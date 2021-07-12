@@ -29,10 +29,11 @@ z_coords = np.random.choice(z, size=100000, replace=True, p=data)
 #DISTRIBUTION OF PROBABILITY : color code for different probability of presence of electrons
 
 #First, define the max distance from the center i.e. the limit in order to define boundaries
-quarter = 0.25*maximum_3array(x_coords,y_coords,z_coords)
-half = 0.5*maximum_3array(x_coords,y_coords,z_coords)
-three_quarter = 0.75*maximum_3array(x_coords,y_coords,z_coords)
 maximum = maximum_3array(x_coords,y_coords,z_coords)
+
+quarter = 0.25*maximum
+half = 0.5*maximum
+three_quarter = 0.75*maximum
 
 #repartition of the data
 coord_quarter = separate_data_by_probability(0,quarter,x_coords,y_coords,z_coords)
