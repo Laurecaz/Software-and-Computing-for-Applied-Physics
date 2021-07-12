@@ -1,25 +1,10 @@
 import numpy as np
-import math
 import matplotlib.pyplot as plt
 import scipy.special
 from scipy.special import sph_harm
+import math
+from functions import hydrogen_wf
 
-
-
-#hydrogen wave function
-def hydrogen_wf(n,l,m,X,Y,Z):
-    R = np.sqrt(X**2+Y**2+Z**2)
-    Theta = np.arccos(Z/R)
-    Phi = np.arctan2(Y,X)
-    
-    rho = 2.*R/n
-    s_harm=sph_harm(m, l, Phi, Theta)
-    l_poly = scipy.special.genlaguerre(n-l-1,2*l+1)(rho)
-    
-    prefactor = np.sqrt((2./n)**3*math.factorial(n-l-1)/(2.*n*math.factorial(n+l)))
-    wf = prefactor*np.exp(-rho/2.)*rho**l*s_harm*l_poly
-    wf = np.nan_to_num(wf)
-    return wf
   
 dz=0.01
 zmin=-10
@@ -38,74 +23,55 @@ m=0
 data = hydrogen_wf(n,l,m,x,y,z)
 data = (abs(data)**2)/sum(abs(data)**2)
 
-
-
-#Getting electron coordinates based on probability
+#Getting electron coordinates based on the probability shape
 x_coords = np.random.choice(x, size=100000, replace=True, p=data)
 y_coords = np.random.choice(y, size=100000, replace=True, p=data)
 z_coords = np.random.choice(z, size=100000, replace=True, p=data)
 
+#DISTRIBUTION OF PROBABILITY : color code for different probability of presence of electrons
+
+#First, define the max distance from the center i.e. the limit
+def maximum_3array(a,b,c): #function which calculate the maximum value in a numpy array
+    maximum = max(a)
+    if maximum < max(b):
+        maximum = max(b)
+    if maximum < max(c):
+        maximum = max(c)
+    return maximum #TEST NEEDED
+
+#definition of boundaries
+quarter = 0.25*maximum_3array(x_coords,y_coords,z_coords)
+half = 0.5*maximum_3array(x_coords,y_coords,z_coords)
+three_quarter = 0.75*maximum_3array(x_coords,y_coords,z_coords)
+maximum = maximum_3array(x_coords,y_coords,z_coords)
+
+#then repartition
+def separate_data_by_probability(lim_min,lim_max,x,y,z): #function which separate coordinates according to the distance with the origin
+    x_reduc = []
+    y_reduc = []
+    z_reduc = []
+    for i in range(len(x)):
+        r = np.sqrt(x[i]**2+y[i]**2+z[i]**2)
+        if lim_min < r < lim_max :
+            x_reduc.append(x[i])
+            y_reduc.append(y[i])
+            z_reduc.append(z[i])
+    return x_reduc, y_reduc, z_reduc
+
+
+#repartition of the data
+coord_quarter = separate_data_by_probability(0,quarter,x_coords,y_coords,z_coords)
+coord_half = separate_data_by_probability(quarter,half,x_coords,y_coords,z_coords)
+coord_three_quarter = separate_data_by_probability(half,three_quarter,x_coords,y_coords,z_coords)
+coord_last_quarter = separate_data_by_probability(three_quarter,maximum,x_coords,y_coords,z_coords)
+
+#plotting
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(x_coords,y_coords,z_coords, alpha=0.05, s=2)
-
-
-
-#distribution of probability
-#test : tout rendre universel si succès
-#rendre cette partie universelle en tenant compte d'un changement de zmin/zmax
-
-quarter = []
-half = []
-three_quarter = []
-last_quarter = []
-
-x_coords_quarter = []
-y_coords_quarter = []
-z_coords_quarter = []
-
-x_coords_half = []
-y_coords_half = []
-z_coords_half = []
-
-x_coords_three_quarter = []
-y_coords_three_quarter = []
-z_coords_three_quarter = []
-
-x_coords_last_quarter = []
-y_coords_last_quarter = []
-z_coords_last_quarter = []
-
-for i in range(len(x_coords)):
-    r = np.sqrt(x_coords[i]**2+y_coords[i]**2+z_coords[i]**2)
-    if r<0.8 : #particules with a distance lower than 0.8 from the origin
-        quarter.append(r)
-        x_coords_quarter.append(x_coords[i])
-        y_coords_quarter.append(y_coords[i])
-        z_coords_quarter.append(z_coords[i])
-    if 0.8<r<1.6 :
-        half.append(r)
-        x_coords_half.append(x_coords[i])
-        y_coords_half.append(y_coords[i])
-        z_coords_half.append(z_coords[i])
-    if 1.6<r<2.4 :
-        three_quarter.append(r)
-        x_coords_three_quarter.append(x_coords[i])
-        y_coords_three_quarter.append(y_coords[i])
-        z_coords_three_quarter.append(z_coords[i])
-    if r>2.4 :
-        last_quarter.append(r)
-        x_coords_last_quarter.append(x_coords[i])
-        y_coords_last_quarter.append(y_coords[i])
-        z_coords_last_quarter.append(z_coords[i])
-
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-#ax.scatter(x_coords,y_coords,z_coords, alpha=0.05, s=2,color='b')
-ax.scatter(x_coords_quarter,y_coords_quarter,z_coords_quarter, alpha=0.05, s=2,color='r',label = '75%')
-ax.scatter(x_coords_half,y_coords_half,z_coords_half, alpha=0.05, s=2,color='g',label='25%')
-ax.scatter(x_coords_three_quarter,y_coords_three_quarter,z_coords_three_quarter, alpha=0.05, s=2,color='m',label='2%')
-ax.scatter(x_coords_last_quarter,y_coords_last_quarter,z_coords_last_quarter, alpha=0.05, s=2,color='b',label ='0.1%')
-
+ax.scatter(coord_quarter[0],coord_quarter[1],coord_quarter[2], alpha=0.05, s=2,color='r',label = '75%') 
+ax.scatter(coord_half[0],coord_half[1],coord_half[2], alpha=0.05, s=2,color='g',label='25%')
+ax.scatter(coord_three_quarter[0],coord_three_quarter[1],coord_three_quarter[2], alpha=0.05, s=2,color='m',label='2%')
+ax.scatter(coord_last_quarter[0],coord_last_quarter[1],coord_last_quarter[2], alpha=0.05, s=2,color='b',label ='0.1%')
 plt.legend()
+
 
