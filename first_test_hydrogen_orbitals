@@ -1,9 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.special
-from scipy.special import sph_harm
-import math
-from functions import hydrogen_wf
+from functions import hydrogen_wf, maximum_3array, separate_data_by_probability
 
 
 #choice of orbital
@@ -31,34 +28,11 @@ z_coords = np.random.choice(z, size=100000, replace=True, p=data)
 
 #DISTRIBUTION OF PROBABILITY : color code for different probability of presence of electrons
 
-#First, define the max distance from the center i.e. the limit
-def maximum_3array(a,b,c): #function which calculate the maximum value in a numpy array
-    maximum = max(a)
-    if maximum < max(b):
-        maximum = max(b)
-    if maximum < max(c):
-        maximum = max(c)
-    return maximum #TEST NEEDED
-
-#definition of boundaries
+#First, define the max distance from the center i.e. the limit in order to define boundaries
 quarter = 0.25*maximum_3array(x_coords,y_coords,z_coords)
 half = 0.5*maximum_3array(x_coords,y_coords,z_coords)
 three_quarter = 0.75*maximum_3array(x_coords,y_coords,z_coords)
 maximum = maximum_3array(x_coords,y_coords,z_coords)
-
-#then repartition
-def separate_data_by_probability(lim_min,lim_max,x,y,z): #function which separate coordinates according to the distance with the origin
-    x_reduc = []
-    y_reduc = []
-    z_reduc = []
-    for i in range(len(x)):
-        r = np.sqrt(x[i]**2+y[i]**2+z[i]**2)
-        if lim_min < r < lim_max :
-            x_reduc.append(x[i])
-            y_reduc.append(y[i])
-            z_reduc.append(z[i])
-    return x_reduc, y_reduc, z_reduc
-
 
 #repartition of the data
 coord_quarter = separate_data_by_probability(0,quarter,x_coords,y_coords,z_coords)
