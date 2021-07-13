@@ -19,23 +19,13 @@ def hydrogen_wf(n,l,m,X,Y,Z):
     wf = np.nan_to_num(wf)
     return wf
 
-#function which calculate the maximum value in a numpy array
-def maximum_3array(a,b,c): 
-    maximum = max(a)
-    if maximum < max(b):
-        maximum = max(b)
-    if maximum < max(c):
-        maximum = max(c)
-    return maximum 
-
-#function which separate coordinates according to the distance with the origin
-def separate_data_by_probability(lim_min,lim_max,x,y,z): 
+#separation of the data for different range of probability
+def separation_by_probability(prob_min,prob_max,x,y,z,prob): 
     x_reduc = []
     y_reduc = []
     z_reduc = []
-    for i in range(len(x)):
-        r = np.sqrt(x[i]**2+y[i]**2+z[i]**2)
-        if lim_min < r < lim_max :
+    for i in range(len(prob)):
+        if prob_min < prob[i] < prob_max :
             x_reduc.append(x[i])
             y_reduc.append(y[i])
             z_reduc.append(z[i])
