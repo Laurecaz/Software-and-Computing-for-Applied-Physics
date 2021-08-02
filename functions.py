@@ -94,4 +94,4 @@ def modelisation(Probability,coordinates,n,l,m) :
     middle_coord = separation_by_probability(middle_prob,high_prob, sign*x_coords, sign*y_coords, sign*z_coords, Probability)
     high_coord = separation_by_probability(high_prob, maximum, sign*x_coords, sign*y_coords, sign*z_coords, Probability)
 
-    return low_coord, middle_coord, high_coord
+    return low_coord, middle_coord, high_coord #contained the three direction coordinates in each 
