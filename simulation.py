@@ -19,7 +19,7 @@ l = 2
 m = 0
 
 #Construction of arbitrary 3D coordinates grid
-dz=0.5
+dz=0.5  #if reduce, the time calculation can quickly increase
 zmin=-10
 zmax=10
 coordinate = np.arange(zmin,zmax,dz)
