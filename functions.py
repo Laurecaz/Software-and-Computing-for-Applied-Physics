@@ -73,7 +73,8 @@ def modelisation(Probability,coordinates,n,l,m) :
     else :
         sign = -1
     
-    x_coords = np.random.choice(coordinates, size=1000000, replace=True, p=Probability)#creation of our random coordinates following the behaviour of the hydrogen probability
+    #creation of our random coordinates following the behaviour of the hydrogen probability
+    x_coords = np.random.choice(coordinates, size=1000000, replace=True, p=Probability)# size is increased when n = 1, otherwise no need anf the time of caculation increases
     y_coords = np.random.choice(coordinates, size=1000000, replace=True, p=Probability)
     z_coords = np.random.choice(coordinates, size=1000000, replace=True, p=Probability)
 
