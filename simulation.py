@@ -32,6 +32,11 @@ wave_function = sign_separation(wave_function)
 positive = From_wf_to_probability(wave_function[0])
 negative = From_wf_to_probability(wave_function[1])
 
+#Avoid a bug due to the fact that the wavefunction have only one sign i.e. n = 1, l = 0, m = 0
+if positive == []:
+    positive  = [1]
+if negative == []:
+    negative  = [1]
 
 coord_pos = np.linspace(zmin,zmax,len(positive))
 coord_neg = np.linspace(zmin,zmax,len(negative))
