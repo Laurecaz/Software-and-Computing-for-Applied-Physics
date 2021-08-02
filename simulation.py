@@ -1,147 +1,66 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from functions import hydrogen_wf, separation_by_probability
+from functions import hydrogen_wf, From_wf_to_probability, sign_separation, modelisation
 
 
 
 
-#choice of orbital
-#print('What orbitals do you want to plot ? ')
-n = 7#input('n = ')
-l = 1#input('l = ')
-m = 0#input('m = ')
+#Choice of orbital
+n = 4
+l = 2
+m = 0
 
-#construction of arbitrary coordinates grid
+#Construction of arbitrary 3D coordinates grid
 dz=0.5
 zmin=-10
 zmax=10
-x = np.arange(zmin,zmax,dz)
-y = np.arange(zmin,zmax,dz)
-z = np.arange(zmin,zmax,dz)
+coordinate = np.arange(zmin,zmax,dz)
+
+#Calculation of the wavefunction
+wave_function = []
+for i in range(len(coordinate)) : #3 DIMENSION GRID
+    for i in range(len(coordinate)) :
+        for i in range(len(coordinate)) :
+            wave_function.append(hydrogen_wf(n,l,m,coordinate[i],coordinate[i],coordinate[i])) #Value of the wavefunction in each point of the grid
+
+wave_function= [i.real for i in wave_function]
+
+#Separation of positive and negative probability
+wave_function = sign_separation(wave_function)
+
+#Definition of the probability
+positive = From_wf_to_probability(wave_function[0])
+negative = From_wf_to_probability(wave_function[1])
 
 
-#Calculation of the probability
-
-data = []
-for i in range(len(x)) :
-    for i in range(len(y)) :
-        for i in range(len(z)) :
-            data.append(hydrogen_wf(n,l,m,x[i],y[i],z[i]))
-
-#data = [abs(i)**2 for i in data]
-#sum_data = sum(data)
-#data = [i/sum_data for i in  data]
-
-data = [i.real for i in data]
-positive = []
-negative = []
-
-for i in range(len(data)):
-    if data[i] >= 0 :
-        positive.append(data[i])
-    else :
-        negative.append(data[i])
-        
-
-positive = [abs(i)**2 for i in positive]
-sum_pos = sum(positive)
-positive = [i/sum_pos for i in  positive]
-
-negative = [abs(i)**2 for i in negative]
-sum_neg = sum(negative)
-negative = [i/sum_neg for i in  negative]
+coord_pos = np.linspace(zmin,zmax,len(positive))
+coord_neg = np.linspace(zmin,zmax,len(negative))
 
 
 
-x_pos = np.linspace(zmin,zmax,len(positive))
-y_pos = np.linspace(zmin,zmax,len(positive))
-z_pos = np.linspace(zmin,zmax,len(positive))
+#Positive :
+low_prob_positive = modelisation(positive,coord_pos,n,l,m,+1)[0]
+middle_prob_positive = modelisation(positive,coord_pos,n,l,m,+1)[1]
+high_prob_positive = modelisation(positive,coord_pos,n,l,m,+1)[2]
 
-x_neg = np.linspace(zmin,zmax,len(negative))
-y_neg = np.linspace(zmin,zmax,len(negative))
-z_neg = np.linspace(zmin,zmax,len(negative))
-
-
-
-
-#NEGATIVE
-
-x_coords = np.random.choice(x_neg, size=1000000, replace=True, p=negative)
-y_coords = np.random.choice(y_neg, size=1000000, replace=True, p=negative)
-z_coords = np.random.choice(z_neg, size=1000000, replace=True, p=negative)
-
-#re-injection of the coordinates in the probability
-data = hydrogen_wf(n,l,m,x_coords,y_coords,z_coords)  #changer le nom
+#Negative :
+low_prob_negative = modelisation(negative,coord_neg,n,l,m,-1)[0]
+middle_prob_negative = modelisation(negative,coord_neg,n,l,m,-1)[1]
+high_prob_negative = modelisation(negative,coord_neg,n,l,m,-1)[2]
 
 
-
-#boudanry definition
-maximum = max(data)
-
-quarter = 0.25*maximum
-half = 0.5*maximum
-three_quarter = 0.9*maximum
-
-#signe and symmetries
-sign_x = -1
-sign_y = -1
-sign_z = -1
-
-#separation of the data according to the probability of each coordinates
-coord_quarter = separation_by_probability(0, quarter, sign_x*x_coords, sign_y*y_coords, sign_z*z_coords, data)#
-coord_half = separation_by_probability(quarter, half, sign_x*x_coords, sign_y*y_coords, sign_z*z_coords, data)
-coord_three_quarter = separation_by_probability(half, three_quarter, sign_x*x_coords, sign_y*y_coords, sign_z*z_coords, data)
-coord_last_quarter = separation_by_probability(three_quarter, maximum, sign_x*x_coords, sign_y*y_coords, sign_z*z_coords, data)
 
 
 #plotting
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(coord_last_quarter[0],coord_last_quarter[1],coord_last_quarter[2], alpha=0.05, s=2,color='r')
-ax.scatter(coord_three_quarter[0],coord_three_quarter[1],coord_three_quarter[2], alpha=0.05, s=2,color='r')
-ax.scatter(coord_half[0],coord_half[1],coord_half[2], alpha=0.05, s=2,color='r')
-#ax.scatter(coord_quarter[0],coord_quarter[1],coord_quarter[2], alpha=0.05, s=2,color='r')
 
+#Positive : 
+ax.scatter(low_prob_positive[0],low_prob_positive[1],low_prob_positive[2], alpha=0.05, s=2,color='lightsteelblue')
+ax.scatter(middle_prob_positive[0],middle_prob_positive[1],middle_prob_positive[2], alpha=0.05, s=2,color='blue')
+ax.scatter(high_prob_positive[0],high_prob_positive[1],high_prob_positive[2], alpha=0.05, s=2,color='midnightblue')
 
-#POSITVE
-
-
-x_coords = np.random.choice(x_pos, size=1000000, replace=True, p=positive)
-y_coords = np.random.choice(y_pos, size=1000000, replace=True, p=positive)
-z_coords = np.random.choice(z_pos, size=1000000, replace=True, p=positive)
-
-
-#re-injection of the coordinates in the probability
-data = hydrogen_wf(n,l,m,x_coords,y_coords,z_coords)  #changer le nom
-
-
-
-#boudanry definition
-maximum = max(data)
-print(maximum)
-
-quarter = 0.25*maximum
-half = 0.5*maximum
-three_quarter = 0.9*maximum
-
-
-#separation of the data according to the probability of each coordinates
-coord_quarter = separation_by_probability(0, quarter, x_coords, y_coords, z_coords, data)#
-coord_half = separation_by_probability(quarter, half, x_coords, y_coords, z_coords, data)
-coord_three_quarter = separation_by_probability(half, three_quarter, x_coords, y_coords, z_coords, data)
-coord_last_quarter = separation_by_probability(three_quarter, maximum, x_coords, y_coords, z_coords, data)
-
-
-#plotting
-#fig = plt.figure()
-#ax = fig.add_subplot(111, projection='3d')
-ax.scatter(coord_last_quarter[0],coord_last_quarter[1],coord_last_quarter[2], alpha=0.05, s=2,color='b')
-ax.scatter(coord_three_quarter[0],coord_three_quarter[1],coord_three_quarter[2], alpha=0.05, s=2,color='b')
-ax.scatter(coord_half[0],coord_half[1],coord_half[2], alpha=0.05, s=2,color='b')
-#ax.scatter(coord_quarter[0],coord_quarter[1],coord_quarter[2], alpha=0.05, s=2,color='b')
-
-plt.xlabel('x')
-plt.ylabel('y')
-
-
-
+#Negative : 
+ax.scatter(low_prob_negative[0],low_prob_negative[1],low_prob_negative[2], alpha=0.05, s=2,color='lightsteelblue')
+ax.scatter(middle_prob_negative[0],middle_prob_negative[1],middle_prob_negative[2], alpha=0.05, s=2,color='blue')
+ax.scatter(high_prob_negative[0],high_prob_negative[1],high_prob_negative[2], alpha=0.05, s=2,color='midnightblue')
