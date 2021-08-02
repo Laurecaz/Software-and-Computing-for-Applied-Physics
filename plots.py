@@ -1,4 +1,8 @@
-#plotting
+import matplotlib.pyplot as plt
+from simulation import low_prob_negative, low_prob_positive, middle_prob_negative, middle_prob_positive, high_prob_negative, high_prob_positive
+
+
+#3D plotting
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
