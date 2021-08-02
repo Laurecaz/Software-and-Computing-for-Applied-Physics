@@ -1,4 +1,4 @@
 # Atomic Orbitals of Hydrogen
 The hydorgen wave function can be written as,
 
-![equation1](https://latex.codecogs.com/gif.latex?\phi_{n,l,m}&space;=&space;Y_{l,m}(\theta,\phi)\exp{r/na_{1})
+![equation1](https://latex.codecogs.com/gif.latex?\phi_{n,l,m}&space;=&space;Y_{l,m}(\theta,\phi)e^{-r/na_{1}\frac{r}{a_{1}}^{l})
