@@ -12,6 +12,15 @@ def test_hydrogen_wf():
     assert hydrogen_wf(3,1,0,0,0,0) == (1e-12+1e-12j)
     assert hydrogen_wf(3,2,1,0,0,0) == (1e-12+1e-12j)
     
+    
+def test_separation_by_probability():
+    # an example to test a property 
+    coord = np.linspace(-10,10,len(positive_prob))
+    maximum = max(positive_prob)
+    x, y, z = separation_by_probability(0.25*maximum,0.50*maximum,coord,coord,coord,positive_prob)
+    assert len(x) == len(y)
+    assert len(y) == len(z)
+   
 
  def test_wf_to_probability():
     # sum of all the data equals to one to check that it returns a probability
