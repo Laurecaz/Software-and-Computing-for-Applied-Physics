@@ -7,12 +7,12 @@ Created on Mon Aug  2 10:52:14 2021
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
-from functions import hydrogen_wf, From_wf_to_probability, sign_separation, modelisation
+from functions import hydrogen_wf, From_wf_to_probability, sign_separation
 import configparser
 
 
-#Choice of orbital
+
+
 config = configparser.ConfigParser()
 config.read('configuration.txt')
 
@@ -24,10 +24,14 @@ numberCoord = int(config.get('settings', 'numberCoord')) # need to be increase f
 
 
 #Construction of arbitrary 3D coordinates grid
-dz = 0.5 #if reduce, the time calculation can quickly increase
-zmin = -10
-zmax = 10
+dz = float(config.get('settings', 'dz'))  #if reduce, the time calculation can quickly increase
+zmin = int(config.get('settings', 'zmin'))
+zmax = int(config.get('settings', 'zmax'))
+
 coordinate = np.arange(zmin,zmax,dz)
+
+
+
 
 #Calculation of the wavefunction for each poitn in the 3D grid
 wave_function = []
@@ -41,6 +45,9 @@ wave_function= [i.real for i in wave_function] # real part of the wavefunction o
 #Separation of positive and negative probability
 wave_function = sign_separation(wave_function)
 
+
+
+
 #Calculation of the probability 
 positive_prob = From_wf_to_probability(wave_function[0])
 negative_prob = From_wf_to_probability(wave_function[1])
@@ -50,24 +57,6 @@ if positive_prob == []:
     positive  = [1]
 if negative_prob == []:
     negative_prob  = [1]
-
-#Arbitrary coordinates with the same size as our positive and negative probability
-#Usefull to create our random coordinates following our probability
-coord_pos = np.linspace(zmin,zmax,len(positive_prob))
-coord_neg = np.linspace(zmin,zmax,len(negative_prob))
-
-
-# Creation of our coordinates generated randomly following the probability (either "positive" or "negative one) trend.
-#Separation of the coordinates for different probability range.
-#"Positive" coordinates :
-low_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[0]
-middle_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[1]
-high_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[2]
-
-#"Negative" coordinates :
-low_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[0]
-middle_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[1]
-high_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[2]
 
 
 
