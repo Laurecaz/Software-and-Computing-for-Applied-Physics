@@ -20,7 +20,7 @@ n = int(config.get('settings', 'n'))
 l = int(config.get('settings', 'l'))
 m = int(config.get('settings', 'm'))
 
-numberCoord = int(config.get('settings', 'numberCoord'))
+numberCoord = int(config.get('settings', 'numberCoord')) # need to be increase fo n = 1
 
 
 #Construction of arbitrary 3D coordinates grid
