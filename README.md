@@ -15,8 +15,9 @@ Thanks to this approach, we can observe that the electrons will form atomic orbi
 
 ## Structure of the project
 These are the steps in order to start the program and to plot the results:
-1. First, the user has to choose the number of coordinate and the specific orbital of the hydrogen we want to simulate in the configuration](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/102bd30c6aaa54a23c2e705d57a4043867b9b39f/configuration.txt) file. There are physical selection rule for the numbers n, l and m that the user should respected in order to avoid an error message. The number of coordinate must be chosen with attention : the computing time increase with it. As default, it is settle as ![equation3](https://latex.codecogs.com/gif.latex?10^{6}), nottice that is must be much larger for the level n = 1.
-2. 
+1. First, the user has to choose the number of coordinate and the specific orbital of the hydrogen we want to simulate in the [configuration](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/102bd30c6aaa54a23c2e705d57a4043867b9b39f/configuration.txt) file. There are physical selection rule for the numbers n, l and m that the user should respected in order to avoid an error message. The number of coordinate must be chosen with attention : the computing time increase with it. As default, it is settle as ![equation3](https://latex.codecogs.com/gif.latex?10^{6}), nottice that is must be much larger for the level n = 1.
+2. Then, the user have to launched the [simulation](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/simulation.py) file, which will import the selected parameters of the [configuration](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/102bd30c6aaa54a23c2e705d57a4043867b9b39f/configuration.txt) file thanks to the ConfigParser library. It will construct the coordinates of the electrons following the probability law correponding to the specific orbital of the hydrogen selected earlier.
+3. At the end, the user has to launch the plots file.
 
 
 
