@@ -28,4 +28,4 @@ This project is divided into four blocks :
 - In the file [simulation](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/simulation.py) there is the main part of the code. It will calculate the wave-function of each point in the 3D grid for the specific orbital. Then the "positive" and "negative" wave-function are used to calculate their probabilities separatly.
 - In the file [plots](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/plots.py) the coordinates are calculated thanks to the probability law calculated in the [simulation](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/simulation.py) file and then they are plotted in 3 dimensions using matplotlib.pyplot.
 
-![config](./images/orbitals_210.png)
+![config](./images/orbitals_21-1.png)![config](./images/orbitals_210.png)![config](./images/orbitals_211.png)
