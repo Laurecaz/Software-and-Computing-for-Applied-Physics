@@ -5,17 +5,35 @@ Created on Mon Jul 12 12:33:42 2021
 
 @author: laurecazals
 """
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jul 12 12:33:42 2021
+
+@author: laurecazals
+"""
 import scipy.special
 from scipy.special import sph_harm
 import numpy as np
 import math
 
 
-
 #FUNCTION FILE
 
 #Generate the hydrogen wave function for a specific orbital and x, y and z coordinates (which can represent either a point or a 3D grid)
 def hydrogen_wf(n,l,m,X,Y,Z):
+    """This method calculates the wavefunction for a specific orbital i.e. n,l and m, at points X, Y and Z (which can represent either a point or a 3D grid).
+    Parameters
+        n : principal quantum number.
+        l : azimuthal quantum number.
+        m : magnetic quantum number.
+        X, Y, Z : float or array of coordinates. 
+    
+    Returns:
+        The wavefunction of the specific orbitals for each coordinate.
+        
+    Raise:
+        ValueError if n is less than 1, if l is negative or more than n-1 and if the absolute value of m is more than l ."""
     R = np.sqrt(X**2+Y**2+Z**2)
     Theta = np.arccos(Z/R)
     Phi = np.arctan2(Y,X)
@@ -32,8 +50,19 @@ def hydrogen_wf(n,l,m,X,Y,Z):
 
 
 
-#separation of the 3 direction coordinates for different range of probability
 def separation_by_probability(prob_min,prob_max,x,y,z,prob): 
+    """This method separate the coordinates according to the range of probability they belong to.
+       
+    Parameters
+        prob_min and prob_max : the boundaries which select the probability range
+        x, y and z : the coordinates we want to separate
+        prob : array which describe the probability law 
+    
+    Returns:
+        The coordinates x, y and z which correspond to the probability range selected.
+    
+    Raise:
+        ValueError if x, y, z and prob are not iterable."""
     x_reduc = []
     y_reduc = []
     z_reduc = []
@@ -46,16 +75,36 @@ def separation_by_probability(prob_min,prob_max,x,y,z,prob):
             z_reduc.append(z[i])
     return x_reduc, y_reduc, z_reduc
 
-# From wavefunction (list) to probability (list)
+
 def From_wf_to_probability(wave_function):
+    """This method generates the probability corresponding to a given wavefunction.
+       
+    Parameters
+        wave_function : the wave_function 
+    
+    Returns:
+        The corresponding probability 
+        
+    Raise:
+        ValueError if wave_function is not iterable."""
     probability = [abs(i)**2 for i in wave_function]
     sum_prob = sum(probability)
     probability = [i/sum_prob for i in  probability]
     return probability #same size as the wave_function in entry
 
 
-#Separation between positive and negative data 
+ 
 def sign_separation(data):
+    """This method separate the positive value and the negative one from an initial iterable object.
+       
+    Parameters
+        data : array or list of one dimension composed by numbers.
+    
+    Returns:
+        A 2D list composed separetly by the positive and negative value.
+        
+    Raise:
+        ValueError if data is not iterable and not composed by numbers"""
     positive = []
     negative = []
     for i in range(len(data)):
@@ -66,29 +115,43 @@ def sign_separation(data):
     return [positive,negative]
     
     
-#creation of our coordinates and separation of them for different probability range.
+
 def modelisation(Probability,coordinates,n,l,m,numberCoord) : 
+    """This method create the coordinates following the Probability law and separate them for different probability range.
+       
+    Parameters
+        Probability : list with coordinates that represent the probability law.
+        coordinates : list with the same lenght as Probability.
+        n, l and m : quantum numbers.
+        numberCoord : size of the coordinates we create.
+        
+    Returns:
+        3 list in 3D which are the coordinates for different probability range (from 25% to 50%, from 50% to 75% and more than 75%)
+        
+    Raise:
+        ValueError if coordinates and Probability do not have the same size, if numberCoord is negative"""
     if Probability == 'positive': #difference orientation in space for positive and negative wavefunction
         sign = +1
     else :
         sign = -1
     
     #creation of our random coordinates following the behaviour of the hydrogen probability
-    x_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)# size is increased when n = 1, otherwise no need anf the time of caculation increases
+    x_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)# size is increased when n = 1, otherwise no need and the time of caculation increases
     y_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)
     z_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)
+
 
     #re-injection of the coordinates in the probability in order to separate them correctly
     wave_function = hydrogen_wf(n,l,m,x_coords,y_coords,z_coords)
     wave_function = [i.real for i in wave_function]
     Probability = From_wf_to_probability(wave_function)
-    
+
     #boundary constant
     maximum = max(Probability)
 
     low_prob = 0.25*maximum
     middle_prob = 0.5*maximum
-    high_prob = 0.9*maximum
+    high_prob = 0.75*maximum
     
     #separation of the data according to the probability of each coordinates (and sign according to the wavefunction)
     low_coord = separation_by_probability(low_prob,middle_prob, sign*x_coords, sign*y_coords, sign*z_coords, Probability)
@@ -96,8 +159,7 @@ def modelisation(Probability,coordinates,n,l,m,numberCoord) :
     high_coord = separation_by_probability(high_prob, maximum, sign*x_coords, sign*y_coords, sign*z_coords, Probability)
 
     return low_coord, middle_coord, high_coord #contained the three direction coordinates in each 
-
-
+    
 
 #Function used to set the marker transparency
 def update(handle, orig):
