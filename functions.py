@@ -96,3 +96,10 @@ def modelisation(Probability,coordinates,n,l,m) :
     high_coord = separation_by_probability(high_prob, maximum, sign*x_coords, sign*y_coords, sign*z_coords, Probability)
 
     return low_coord, middle_coord, high_coord #contained the three direction coordinates in each 
+
+
+
+#Function used to set the marker transparency
+def update(handle, orig):
+    handle.update_from(orig)
+    handle.set_alpha(1)
