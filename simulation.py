@@ -24,9 +24,9 @@ numberCoord = int(config.get('settings', 'numberCoord')) # need to be increase f
 
 
 #Construction of arbitrary 3D coordinates grid
-dz=0.5 #if reduce, the time calculation can quickly increase
-zmin=-10
-zmax=10
+dz = 0.5 #if reduce, the time calculation can quickly increase
+zmin = -10
+zmax = 10
 coordinate = np.arange(zmin,zmax,dz)
 
 #Calculation of the wavefunction for each poitn in the 3D grid
