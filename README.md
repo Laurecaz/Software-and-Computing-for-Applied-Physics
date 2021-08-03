@@ -13,4 +13,4 @@ The aim of the program is to simulate the possible electrons' position of the hy
 
 Thanks to this approach, we can observe that the electrons will form atomic orbitals that we can compare to the theory.
 This project is divided into four blocks :
-- In the file [functions](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/functions.py)
+- In the file [functions](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/functions.py)
