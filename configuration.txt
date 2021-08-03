@@ -9,3 +9,5 @@ zmax = 10
 
 [paths]
 orbitals_210_pic : ./images/orbitals_210.png
+orbitals_21-1_pic : ./images/orbitals_210.png
+orbitals_211_pic : ./images/orbitals_210.png
