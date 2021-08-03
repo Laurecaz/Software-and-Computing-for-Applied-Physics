@@ -67,16 +67,16 @@ def sign_separation(data):
     
     
 #creation of our coordinates and separation of them for different probability range.
-def modelisation(Probability,coordinates,n,l,m) : 
+def modelisation(Probability,coordinates,n,l,m,numberCoord) : 
     if Probability == 'positive': #difference orientation in space for positive and negative wavefunction
         sign = +1
     else :
         sign = -1
     
     #creation of our random coordinates following the behaviour of the hydrogen probability
-    x_coords = np.random.choice(coordinates, size=1000000, replace=True, p=Probability)# size is increased when n = 1, otherwise no need anf the time of caculation increases
-    y_coords = np.random.choice(coordinates, size=1000000, replace=True, p=Probability)
-    z_coords = np.random.choice(coordinates, size=1000000, replace=True, p=Probability)
+    x_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)# size is increased when n = 1, otherwise no need anf the time of caculation increases
+    y_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)
+    z_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)
 
     #re-injection of the coordinates in the probability in order to separate them correctly
     wave_function = hydrogen_wf(n,l,m,x_coords,y_coords,z_coords)
