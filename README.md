@@ -12,4 +12,5 @@ The aim of the program is to simulate the possible electrons' position of the hy
 - Then, the electron's coordinates correponding to a probability of presence less than 25% are deleted, and the rest are plot with a color code revealing the most likely electron's positions.
 
 Thanks to this approach, we can observe that the electrons will form atomic orbitals that we can compare to the theory.
-
+This project is divided into four blocks :
+- In the file [functions](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/functions.py)
