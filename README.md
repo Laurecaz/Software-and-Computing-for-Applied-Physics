@@ -13,4 +13,7 @@ The aim of the program is to simulate the possible electrons' position of the hy
 
 Thanks to this approach, we can observe that the electrons will form atomic orbitals that we can compare to the theory.
 This project is divided into four blocks :
-- In the file [functions](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/functions.py)
+- In the file [functions](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/functions.py) all our functions are stocked. They are tools used for the construction of our data.
+- In the file [TEST](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/TEST.py), the functions are tested, to ensure as much as possible that the program is working properly.
+- In the file [simulation](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/simulation.py) there is the main part of the code. It reproduces all the steps descibe earlier relying on the functions designed on purpose.
+- In the file [plots](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/plots.py) the data produced by the simulation file are plotted in 3 dimension using matplotlib.pyplot.
