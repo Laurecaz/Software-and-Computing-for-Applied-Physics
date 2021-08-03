@@ -9,17 +9,22 @@ Created on Mon Aug  2 10:52:14 2021
 import numpy as np
 import matplotlib.pyplot as plt
 from functions import hydrogen_wf, From_wf_to_probability, sign_separation, modelisation
-
-
+import configparser
 
 
 #Choice of orbital
-n = 3
-l = 2
-m = 0
+config = configparser.ConfigParser()
+config.read('configuration.txt')
+
+n = int(config.get('settings', 'n'))
+l = int(config.get('settings', 'l'))
+m = int(config.get('settings', 'm'))
+
+numberCoord = int(config.get('settings', 'numberCoord'))
+
 
 #Construction of arbitrary 3D coordinates grid
-dz=0.5  #if reduce, the time calculation can quickly increase
+dz=0.5 #if reduce, the time calculation can quickly increase
 zmin=-10
 zmax=10
 coordinate = np.arange(zmin,zmax,dz)
@@ -55,15 +60,14 @@ coord_neg = np.linspace(zmin,zmax,len(negative_prob))
 # Creation of our coordinates generated randomly following the probability (either "positive" or "negative one) trend.
 #Separation of the coordinates for different probability range.
 #"Positive" coordinates :
-low_prob_positive = modelisation(positive_prob,coord_pos,n,l,m)[0]
-middle_prob_positive = modelisation(positive_prob,coord_pos,n,l,m)[1]
-high_prob_positive = modelisation(positive_prob,coord_pos,n,l,m)[2]
+low_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[0]
+middle_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[1]
+high_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[2]
 
 #"Negative" coordinates :
-low_prob_negative = modelisation(negative_prob,coord_neg,n,l,m)[0]
-middle_prob_negative = modelisation(negative_prob,coord_neg,n,l,m)[1]
-high_prob_negative = modelisation(negative_prob,coord_neg,n,l,m)[2]
-
+low_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[0]
+middle_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[1]
+high_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[2]
 
 
 
