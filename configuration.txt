@@ -1,0 +1,5 @@
+[settings]
+n = 2
+l = 1
+m = 0
+numberCoord = 1000000
