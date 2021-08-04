@@ -22,7 +22,7 @@ Below are the steps needed in order to start the program and to plot the results
 
 
 This project is divided into five blocks :
-- In the [functions](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/functions.py) file, all the functions are stored. They are tools used for the construction of our data.
+- In the [functions](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/functions.py) file, all the functions are stored. They are tools used for the construction of the data.
 - In the [TEST](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/TEST.py) file, the functions are tested, to ensure as much as possible that the program is working properly.
 - In the [configuration](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/102bd30c6aaa54a23c2e705d57a4043867b9b39f/configuration.txt) file there are the definitions of the parameters used in the simulation and the plot file : the initial 3D grid, the specific orbital (n,l,m), the number of coordinates we want to simulate and the range of probabilities we want to observe. There are also the local paths in order to load and save the plots in a folder named "Images". 
 - In the [simulation](https://github.com/Laurecaz/Software-and-Computing-for-Applied-Physics/blob/210eff060e604a76519aac8830f16862f5375748/simulation.py) file there is the main part of the code. It will calculate the wavefunction of each point in the 3D grid for the specific orbital. Then the "positive" and "negative" parts of the wavefunction are used to calculate their respective probabilities.
