@@ -42,6 +42,7 @@ def hydrogen_wf(n,l,m,X,Y,Z):
         
     Raise:
         ValueError if n is less than 1, if l is negative or more than n-1 and if the absolute value of m is more than l ."""
+    
     R = np.sqrt(X**2+Y**2+Z**2)
     Theta = np.arccos(Z/R)
     Phi = np.arctan2(Y,X)
@@ -59,7 +60,7 @@ def hydrogen_wf(n,l,m,X,Y,Z):
 
 
 def separation_by_probability(prob_min,prob_max,x,y,z,prob): 
-    """This method separate the coordinates according to the range of probability they belong to.
+    """This method separates the coordinates according to the range of probability they belong to.
        
     Parameters
         prob_min and prob_max : the boundaries which select the probability range
@@ -71,6 +72,7 @@ def separation_by_probability(prob_min,prob_max,x,y,z,prob):
     
     Raise:
         ValueError if x, y, z and prob are not iterable."""
+    
     x_reduc = []
     y_reduc = []
     z_reduc = []
@@ -95,6 +97,7 @@ def From_wf_to_probability(wave_function):
         
     Raise:
         ValueError if wave_function is not iterable."""
+    
     probability = [abs(i)**2 for i in wave_function]
     sum_prob = sum(probability)
     probability = [i/sum_prob for i in  probability]
@@ -103,16 +106,17 @@ def From_wf_to_probability(wave_function):
 
  
 def sign_separation(data):
-    """This method separate the positive value and the negative one from an initial iterable object.
+    """This method separate the positive values and the negative one from an initial iterable object.
        
     Parameters
         data : array or list of one dimension composed by numbers.
     
     Returns:
-        A 2D list composed separetly by the positive and negative value.
+        A 2D list composed separetly by the positive and negative values.
         
     Raise:
         ValueError if data is not iterable and not composed by numbers"""
+    
     positive = []
     negative = []
     for i in range(len(data)):
@@ -125,7 +129,7 @@ def sign_separation(data):
     
 
 def modelisation(Probability,coordinates,n,l,m,numberCoord,sign) : 
-    """This method create the coordinates following the Probability law and separate them for different probability range.
+    """This method creates the coordinates following the Probability law and separate them for different probability range.
        
     Parameters
         Probability : list with coordinates that represent the probability law.
@@ -134,7 +138,7 @@ def modelisation(Probability,coordinates,n,l,m,numberCoord,sign) :
         numberCoord : size of the coordinates we create.
         
     Returns:
-        3 list in 3D which are the coordinates for different probability range (from 25% to 50%, from 50% to 75% and more than 75%)
+        3 list in 3D which are the coordinates for different probability range 
         
     Raise:
         ValueError if coordinates and Probability do not have the same size, if numberCoord is negative"""
