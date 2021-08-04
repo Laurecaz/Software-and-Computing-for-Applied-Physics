@@ -59,4 +59,3 @@ if negative_prob == []:
     negative_prob  = [1]
 
 
-
