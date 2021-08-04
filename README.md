@@ -7,9 +7,9 @@ The hydrogen wave function can be written as,
 
 The aim of the program is to simulate the possible electrons' position of the hydrogen atom in different states. The main steps of the program for each states are :
 1. A 3D arbitrary grid is created.
-2. The hydrogen wavefunction is calculated for each portion of space. The positive part is separated from the negative one, and their probabilities are determined independently.
-3. The electrons' coordinates are generated randomly following these two different probability laws. The coordinates following the negative law will have its electrons "return" in the space i.e. every coordinates will change sign, in order to reproduce the "negativity" of there wavefunction.
-4. Then, depending on each state, the electron's coordinates will be plot with a color code revealing the most likely electron's positions.
+2. The hydrogen wavefunction is calculated for each portion of space. The positive part is separated from the negative one, and their respective probabilities are determined independently.
+3. The electrons' coordinates are generated randomly following these two different probability laws. The electrons following the negative probability will be "returned" in the space i.e. their coordinates will switch their sign, in order to reproduce the "negativity" of their wavefunction.
+4. Then, depending on each state, the electron's coordinates will be plotted with a color code revealing the most likely electron's positions.
 
 Thanks to this approach, we can observe that the electrons will form atomic orbitals that we can compare to the litterature.
 
