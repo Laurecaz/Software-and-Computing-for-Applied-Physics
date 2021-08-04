@@ -4,12 +4,7 @@
 Created on Mon Jul 12 12:33:42 2021
 @author: laurecazals
 """
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jul 12 12:33:42 2021
-@author: laurecazals
-"""
+
 import scipy.special
 from scipy.special import sph_harm
 import numpy as np
