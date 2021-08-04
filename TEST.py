@@ -10,7 +10,7 @@ from functions import From_wf_to_probability, sign_separation, separation_by_pro
 import numpy as np
 import random
 import math
-from simulation_config import positive_prob
+from simulation import positive_prob
 
 
 def test_hydrogen_wf():
