@@ -10,7 +10,7 @@ from functions import update, modelisation
 from matplotlib.collections import PathCollection
 from matplotlib.legend_handler import HandlerPathCollection, HandlerLine2D
 import configparser
-from simulation_config import positive_prob, negative_prob
+from simulation import positive_prob, negative_prob
 
 
 
