@@ -2,21 +2,29 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jul 12 12:33:42 2021
-
 @author: laurecazals
 """
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jul 12 12:33:42 2021
-
 @author: laurecazals
 """
 import scipy.special
 from scipy.special import sph_harm
 import numpy as np
 import math
+import configparser
 
+
+
+
+config = configparser.ConfigParser()
+config.read('configuration.txt')
+
+low = float(config.get('settings', 'low_prob'))
+middle = float(config.get('settings', 'middle_prob'))
+high = float(config.get('settings', 'high_prob'))
 
 #FUNCTION FILE
 
@@ -116,7 +124,7 @@ def sign_separation(data):
     
     
 
-def modelisation(Probability,coordinates,n,l,m,numberCoord) : 
+def modelisation(Probability,coordinates,n,l,m,numberCoord,sign) : 
     """This method create the coordinates following the Probability law and separate them for different probability range.
        
     Parameters
@@ -130,28 +138,24 @@ def modelisation(Probability,coordinates,n,l,m,numberCoord) :
         
     Raise:
         ValueError if coordinates and Probability do not have the same size, if numberCoord is negative"""
-    if Probability == 'positive': #difference orientation in space for positive and negative wavefunction
-        sign = +1
-    else :
-        sign = -1
-    
+
     #creation of our random coordinates following the behaviour of the hydrogen probability
     x_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)# size is increased when n = 1, otherwise no need and the time of caculation increases
     y_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)
     z_coords = np.random.choice(coordinates, size=numberCoord, replace=True, p=Probability)
 
-
     #re-injection of the coordinates in the probability in order to separate them correctly
     wave_function = hydrogen_wf(n,l,m,x_coords,y_coords,z_coords)
     wave_function = [i.real for i in wave_function]
     Probability = From_wf_to_probability(wave_function)
-
+    
     #boundary constant
     maximum = max(Probability)
-
-    low_prob = 0.25*maximum
-    middle_prob = 0.5*maximum
-    high_prob = 0.75*maximum
+    
+   
+    low_prob = low*maximum
+    middle_prob = middle*maximum
+    high_prob = high*maximum
     
     #separation of the data according to the probability of each coordinates (and sign according to the wavefunction)
     low_coord = separation_by_probability(low_prob,middle_prob, sign*x_coords, sign*y_coords, sign*z_coords, Probability)
@@ -165,3 +169,4 @@ def modelisation(Probability,coordinates,n,l,m,numberCoord) :
 def update(handle, orig):
     handle.update_from(orig)
     handle.set_alpha(1)
+    
