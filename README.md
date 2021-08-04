@@ -11,7 +11,7 @@ The aim of the program is to simulate the possible electrons' position of the hy
 3. The electrons' coordinates are generated randomly following these two different probability law. The one following the negative law will have its electrons "return" in the space i.e. every coordinates will change sign, in order to reproduce the "negativity" of there wavefunction.
 4. Then, depending on each state, the electron's coordinates will be plot with a color code revealing the most likely electron's positions.
 
-Thanks to this approach, we can observe that the electrons will form atomic orbitals that we can compare to the theory.
+Thanks to this approach, we can observe that the electrons will form atomic orbitals that we can compare to the litterature.
 
 ## Structure of the project
 These are the steps in order to start the program and to plot the results:
