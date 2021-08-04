@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Aug  2 14:26:03 2021
-
 @author: laurecazals
 """
 
@@ -11,7 +10,7 @@ from functions import update, modelisation
 from matplotlib.collections import PathCollection
 from matplotlib.legend_handler import HandlerPathCollection, HandlerLine2D
 import configparser
-from simulation import positive_prob, negative_prob
+from simulation_config import positive_prob, negative_prob
 
 
 
@@ -27,6 +26,10 @@ numberCoord = int(config.get('settings', 'numberCoord')) # need to be increase f
 zmin = int(config.get('settings', 'zmin'))
 zmax = int(config.get('settings', 'zmax'))
 
+low = float(config.get('settings', 'low_prob'))*100
+middle = float(config.get('settings', 'middle_prob'))*100
+high = float(config.get('settings', 'high_prob'))*100
+
 
 destination = config.get('paths',f'orbitals_{n}{l}{m}_pic')
 
@@ -40,14 +43,15 @@ coord_neg = np.linspace(zmin,zmax,len(negative_prob))
 
 # Creation of our coordinates generated randomly following the probability (either "positive" or "negative one) trend + Separation of the coordinates for different probability range.
 #"Positive" coordinates :
-low_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[0]
-middle_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[1]
-high_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord)[2]
+
+low_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord,1)[0]
+middle_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord,1)[1]
+high_prob_positive = modelisation(positive_prob,coord_pos,n,l,m,numberCoord,1)[2]
 
 #"Negative" coordinates :
-low_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[0]
-middle_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[1]
-high_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord)[2]
+low_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord,-1)[0]
+middle_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord,-1)[1]
+high_prob_negative = modelisation(negative_prob,coord_neg,n,l,m,numberCoord,-1)[2]
 
 
 
@@ -61,12 +65,13 @@ def graphPlot():
     ax = fig.add_subplot(111, projection='3d')
 
     #Positive wavefunction data: 
-    ax.scatter(low_prob_positive[0],low_prob_positive[1],low_prob_positive[2], alpha=0.05, s=2,color='lightsteelblue',label='Less than 50%')
-    ax.scatter(middle_prob_positive[0],middle_prob_positive[1],middle_prob_positive[2], alpha=0.05, s=2,color='blue',label='Less than 75%')
-    ax.scatter(high_prob_positive[0],high_prob_positive[1],high_prob_positive[2], alpha=0.05, s=2,color='red', label='More than 75%')
+        
+    ax.scatter(low_prob_positive[0],low_prob_positive[1],low_prob_positive[2], alpha=0.05, s=2,color='cornflowerblue',label=f'Between {low}% and {middle}%')
+    ax.scatter(middle_prob_positive[0],middle_prob_positive[1],middle_prob_positive[2], alpha=0.05, s=2,color='blue',label=f'Between {middle}% and {high}%')
+    ax.scatter(high_prob_positive[0],high_prob_positive[1],high_prob_positive[2], alpha=0.05, s=2,color='red', label=f'More than {high}%')
 
-    #Negative wavefunction data: 
-    ax.scatter(low_prob_negative[0],low_prob_negative[1],low_prob_negative[2], alpha=0.05, s=2,color='lightsteelblue')
+    #Negative wavefunction data:
+    ax.scatter(low_prob_negative[0],low_prob_negative[1],low_prob_negative[2], alpha=0.05, s=2,color='cornflowerblue')
     ax.scatter(middle_prob_negative[0],middle_prob_negative[1],middle_prob_negative[2], alpha=0.05, s=2,color='blue')
     ax.scatter(high_prob_negative[0],high_prob_negative[1],high_prob_negative[2], alpha=0.05, s=2,color='red')
 
