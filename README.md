@@ -30,4 +30,4 @@ This project is divided into five blocks :
 
 Here, some results of this program :
 
-![config](./Images/orbitals_21-1.png)![config](./Images/orbitals_210.png)![config](./Images/orbitals_211.png)![config](./Images/orbitals_311.png)![config](./Images/orbitals_320.png)![config](./Images/orbitals_321.png)
+![config](./Images/orbitals_21-1.png)![config](./Images/orbitals_210.png)![config](./Images/orbitals_211.png)![config](./Images/orbitals_311.png)![config](./Images/orbitals_320.png)
