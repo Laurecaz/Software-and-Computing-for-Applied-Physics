@@ -52,7 +52,7 @@ def hydrogen_wf(n,l,m,X,Y,Z):
     
     prefactor = np.sqrt((2./n)**3*math.factorial(n-l-1)/(2.*n*math.factorial(n+l)))
     wf = prefactor*np.exp(-rho/2.)*rho**l*s_harm*l_poly
-    wf = np.nan_to_num(wf,nan = 0.001)
+    wf = np.nan_to_num(wf,nan = 1e-12)
     return wf # same size as a coordinate
 
 
