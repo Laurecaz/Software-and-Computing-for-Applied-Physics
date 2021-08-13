@@ -1,0 +1,21 @@
+[settings]
+n = 2
+l = 1
+m = 0
+
+numberCoord = 1000000
+dz = 0.5
+zmin = -10
+zmax = 10
+
+low_prob = 0.1
+middle_prob = 0.5
+high_prob = 0.75
+
+NumbSeed = 1
+
+[paths]
+orbitals_210_pic : ./images/orbitals_210.png
+
+positive_prob : ./data/positive_210.npy
+negative_prob : ./data/negative_210.npy
