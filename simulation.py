@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon Aug  2 10:52:14 2021
-
 @author: laurecazals
 """
 
@@ -14,13 +13,22 @@ import configparser
 
 
 config = configparser.ConfigParser()
-config.read('configuration.txt')
+
+#Choice of the specific configuration
+chosen_text = input('Choose your simulation configuration text : ')
+chosen_text = str(chosen_text)
+config.read(chosen_text)
 
 n = int(config.get('settings', 'n'))
 l = int(config.get('settings', 'l'))
 m = int(config.get('settings', 'm'))
 
 numberCoord = int(config.get('settings', 'numberCoord')) # need to be increase fo n = 1
+
+
+#Path where the final data generate by this simulation while be saved
+destination1 = config.get('paths','positive_prob')
+destination2 = config.get('paths','negative_prob')
 
 
 #Construction of arbitrary 3D coordinates grid
@@ -45,17 +53,14 @@ wave_function= [i.real for i in wave_function] # real part of the wavefunction o
 #Separation of positive and negative probability
 wave_function = sign_separation(wave_function)
 
-
-
-
 #Calculation of the probability 
 positive_prob = From_wf_to_probability(wave_function[0])
 negative_prob = From_wf_to_probability(wave_function[1])
+ 
 
-#Avoid a bug due to the fact that the wavefunction have only one sign i.e. n = 1, l = 0, m = 0
-if positive_prob == []:
-    positive  = [1]
-if negative_prob == []:
-    negative_prob  = [1]
 
+
+#Save the data created by this simulation file
+np.save(destination1,positive_prob)
+np.save(destination2,negative_prob)
 
