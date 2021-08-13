@@ -9,22 +9,14 @@ import scipy.special
 from scipy.special import sph_harm
 import numpy as np
 import math
-import configparser
 
 
 
-
-config = configparser.ConfigParser()
-config.read('configuration.txt')
-
-low = float(config.get('settings', 'low_prob'))
-middle = float(config.get('settings', 'middle_prob'))
-high = float(config.get('settings', 'high_prob'))
 
 #FUNCTION FILE
 
 #Generate the hydrogen wave function for a specific orbital and x, y and z coordinates (which can represent either a point or a 3D grid)
-def hydrogen_wf(n,l,m,X,Y,Z):
+def hydrogen_wf(n, l, m, X, Y, Z):
     """This method calculates the wavefunction for a specific orbital i.e. n,l and m, at points X, Y and Z (which can represent either a point or a 3D grid).
     Parameters
         n : principal quantum number.
@@ -54,7 +46,7 @@ def hydrogen_wf(n,l,m,X,Y,Z):
 
 
 
-def separation_by_probability(prob_min,prob_max,x,y,z,prob): 
+def separation_by_probability(prob_min, prob_max, x, y, z, prob): 
     """This method separates the coordinates according to the range of probability they belong to.
        
     Parameters
@@ -73,11 +65,13 @@ def separation_by_probability(prob_min,prob_max,x,y,z,prob):
     z_reduc = []
     prob_min = min(prob_min,prob_max) #if by mistake prob_max is smaller than prob_min
     prob_max = max(prob_min,prob_max)
+    
     for i in range(len(prob)):
         if prob_min < prob[i] < prob_max :
             x_reduc.append(x[i])
             y_reduc.append(y[i])
             z_reduc.append(z[i])
+    
     return x_reduc, y_reduc, z_reduc
 
 
@@ -85,10 +79,10 @@ def From_wf_to_probability(wave_function):
     """This method generates the probability corresponding to a given wavefunction.
        
     Parameters
-        wave_function : the wave_function 
+        wave_function : list of one dimension composed by numbers
     
     Returns:
-        The corresponding probability 
+        An one dimension list composed of numbers
         
     Raise:
         ValueError if wave_function is not iterable."""
@@ -96,6 +90,11 @@ def From_wf_to_probability(wave_function):
     probability = [abs(i)**2 for i in wave_function]
     sum_prob = sum(probability)
     probability = [i/sum_prob for i in  probability]
+    
+    #Avoid a bug due to the fact that the wavefunction have only one sign i.e. n = 1, l = 0, m = 0
+    if probability == []:
+        probability  = [1]
+    
     return probability #same size as the wave_function in entry
 
 
@@ -123,7 +122,7 @@ def sign_separation(data):
     
     
 
-def modelisation(Probability,coordinates,n,l,m,numberCoord,sign) : 
+def modelisation(Probability, coordinates, n, l, m, numberCoord, sign, low, middle, high) : 
     """This method creates the coordinates following the Probability law and separate them for different probability range.
        
     Parameters
@@ -162,10 +161,4 @@ def modelisation(Probability,coordinates,n,l,m,numberCoord,sign) :
     high_coord = separation_by_probability(high_prob, maximum, sign*x_coords, sign*y_coords, sign*z_coords, Probability)
 
     return low_coord, middle_coord, high_coord #contained the three direction coordinates in each 
-    
-
-#Function used to set the marker transparency
-def update(handle, orig):
-    handle.update_from(orig)
-    handle.set_alpha(1)
     
