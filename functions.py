@@ -82,7 +82,7 @@ def From_wf_to_probability(wave_function):
         wave_function : list of one dimension composed by numbers
     
     Returns:
-        An one dimension list composed of numbers
+        An one dimension list composed by numbers
         
     Raise:
         ValueError if wave_function is not iterable."""
