@@ -39,6 +39,8 @@ def test_wf_to_probability():
     
     # sum of all the data equals to one to check that it returns a probability
     assert round(sum(random_values),10) == 1
+    assert round(sum(From_wf_to_probability(np.random.random(1000))),10) == 1 #only positive values for the wavefunction
+    assert round(sum(From_wf_to_probability(np.random.random(1000)*(-1))),10) == 1 #only positive values for the wavefunction
     
     # all the data are positive to check that it returns a probability
     for i in range(1000):
@@ -50,6 +52,7 @@ def test_wf_to_probability():
     # input and output lists must be the same 
     assert len(random_values) == len(From_wf_to_probability(random_values))
 
+ 
 
 def test_sign():
     # test for the 0
@@ -59,9 +62,10 @@ def test_sign():
     assert sign_separation([1,2,3,4,5]) == [[1,2,3,4,5],[]]
     assert sign_separation([-1,-2,-3,-4,-5]) == [[],[-1,-2,-3,-4,-5]]
 
+    # test if th einput is an empty lisy
+    assert sign_separation([]) == [[], []]
 
 
 
 if __name__ == "main":
     pass
-
